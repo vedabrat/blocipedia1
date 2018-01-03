@@ -27,6 +27,8 @@ gem 'bootstrap'
 gem 'figaro'
 gem 'devise'
 gem 'pundit'
+gem 'faker'
+
 
 
 # Use Redis adapter to run Action Cable in production
@@ -52,6 +54,8 @@ group :development, :test do
   gem 'faker'
   gem 'factory_bot_rails'
   gem 'pry-rails'
+  gem 'faker'
+
 end
 
 group :development do
