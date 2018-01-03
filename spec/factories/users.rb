@@ -7,5 +7,6 @@ FactoryBot.define do
     role :member
     confirmed_at Date.today
 
+ 
   end
 end
