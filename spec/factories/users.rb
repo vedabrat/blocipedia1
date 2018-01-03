@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    name RandomData.random_name
+    name "#{random_word} #{random_word}"
     sequence(:email){|n| "user#{n}@factory.com" }
     password pw
     password_confirmation pw
