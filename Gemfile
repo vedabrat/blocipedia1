@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 gem 'figaro'
 gem 'devise'
+gem 'pundit'
 
 
 # Use Redis adapter to run Action Cable in production
