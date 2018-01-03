@@ -4,6 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :collaborators
+  has_many :wikis, through: :collaborators
+
+  before_save { self.email = email.downcase }
+
+
   has_many :wikis
   after_initialize { self.role ||= :standard }
   enum role: [:standard, :admin, :premium]
