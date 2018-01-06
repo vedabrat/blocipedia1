@@ -1,7 +1,6 @@
 class ChargesController < ApplicationController
 
   def create
-    @user = current_user
 
      # Creates a Stripe Customer object, for associating
      # with the charge
@@ -18,7 +17,6 @@ class ChargesController < ApplicationController
        currency: 'usd'
      )
 
-     @user.role = :premium
 
      flash[:notice] = "Thanks for the payment, #{current_user.email}! You can now create and edit private wikis."
      redirect_to user_path(current_user) # or wherever
