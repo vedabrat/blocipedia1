@@ -28,7 +28,8 @@ gem 'figaro'
 gem 'devise'
 gem 'pundit'
 gem 'faker'
-
+gem 'stripe'
+gem 'rolify'
 
 
 # Use Redis adapter to run Action Cable in production
