@@ -11,6 +11,12 @@ class User < ApplicationRecord
 
 
   has_many :wikis
+
   after_initialize { self.role ||= :standard }
   enum role: [:standard, :admin, :premium]
+
+  def going_public
+    self.wikis.each { |wiki| puts wiki.publicize }
+  end
+
 end
