@@ -16,6 +16,7 @@ class ChargesController < ApplicationController
        description: "Upgrade to Premium Membership - #{current_user.email}",
        currency: 'usd'
      )
+       current_user.update_attribute(:role, 1)
 
 
      flash[:notice] = "Thanks for the payment, #{current_user.email}! You can now create and edit private wikis."

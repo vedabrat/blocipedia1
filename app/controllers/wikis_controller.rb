@@ -8,12 +8,18 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
-       unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
-       flash[:alert] = "You must be a premium user to view private topics."
-       if current_user
-         redirect_to new_charge_path
-       else
-         redirect_to new_user_registration_path
+    if current_user.present?
+     collaborators = []
+     @wiki.collaborators.each do |collaborator|
+       collaborators << collaborator.email
+     end
+     unless (@wiki.private == false) || @wiki.user == current_user || collaborators.include?(current_user.email) || current_user.admin?
+       flash[:alert] = "You are not authorized to view this wiki."
+       redirect_to new_charge_path
+     end
+   else
+     flash[:alert] = "You are not authorized to view this wiki."
+     redirect_to new_user_registration_path
        end
      end
     authorize @wiki
