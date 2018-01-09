@@ -1,5 +1,5 @@
 class WikisController < ApplicationController
-    before_filter :authenticate_user!, except: [ :index, :show ]
+    # before_filter :authenticate_user!, except: [ :index, :show ]
     after_action :verify_authorized, :except => :index
   def index
     @wikis = Wiki.all
@@ -35,6 +35,8 @@ class WikisController < ApplicationController
      @wiki.user = current_user
      authorize @wiki
      if @wiki.save
+       @wiki.collaborators = Collaborator.update_collaborators(params[:wiki][:collaborators])
+
        flash[:notice] = "wiki was saved."
        redirect_to @wiki
      else
@@ -67,7 +69,11 @@ class WikisController < ApplicationController
     authorize @wiki
     @wiki.assign_attributes(wiki_params)
 
-    if @wiki.save
+    if @wiki.save && (@wiki.user == current_user || current_user.admin?)
+      @wiki.collaborators = Collaborator.update_collaborators(params[:wiki][:collaborators])
+      flash[:notice] = "Wiki was updated successfully."
+      redirect_to @wiki
+    elsif @wiki.save
       flash[:notice] = "Wiki was updated."
       redirect_to @wiki
     else
@@ -81,4 +87,3 @@ private
   def wiki_params
     params.require(:wiki).permit(:title, :body, :public)
   end
-end

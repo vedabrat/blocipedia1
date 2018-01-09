@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20180104202848) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+  
+  add_index "collaborators", ["user_id"], name: "index_collaborators_on_user_id"
 
   create_table "wikis", force: :cascade do |t|
     t.string "title"
@@ -45,5 +47,7 @@ ActiveRecord::Schema.define(version: 20180104202848) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_wikis_on_user_id"
   end
+
+  add_index "wikis", ["user_id"], name: "index_wikis_on_user_id"
 
 end
