@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20180104202848) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "role"
+    t.boolean "premium", default: false
+    t.boolean "standard", default: true
     t.string "name"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
