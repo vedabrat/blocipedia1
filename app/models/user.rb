@@ -15,6 +15,11 @@ class User < ApplicationRecord
   after_initialize { self.role ||= :standard }
   enum role: [:standard, :admin, :premium]
 
+
+    def upgrade
+      update!(role: :premium)
+    end
+
   def going_public
     self.wikis.each { |wiki| puts wiki.publicize }
   end

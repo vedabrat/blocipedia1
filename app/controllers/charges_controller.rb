@@ -16,10 +16,11 @@ class ChargesController < ApplicationController
        description: "Upgrade to Premium Membership - #{current_user.email}",
        currency: 'usd'
      )
+     current_user.upgrade
 
 
      flash[:notice] = "Thanks for the payment, #{current_user.email}! You can now create and edit private wikis."
-     redirect_to user_path(current_user) # or wherever
+     redirect_to wikis_path(current_user) # or wherever
 
      # Stripe will send back CardErrors, with friendly messages
      # when something goes wrong.
@@ -35,12 +36,6 @@ class ChargesController < ApplicationController
        description: "Premium Membership - #{current_user.name}",
        amount: 15_00
      }
-   end
-
- private
-
-   def upgrade_user_role
-     @user.role = 'premium'
    end
 
 end
