@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'collaborators/_form'
+
   resources :downgrade, only: [:new, :create]
   post 'downgrade/create'
   devise_for :users

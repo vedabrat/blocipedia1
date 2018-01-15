@@ -1,12 +1,13 @@
 class WikisController < ApplicationController
   after_action :verify_authorized, :except => :index
   def index
-    @wikis = Wiki.all
-    @wikis = Wiki.visible_to(current_user)
+    @wikis = policy_scope(Wiki)
   end
 
   def show
     @wiki = Wiki.find(params[:id])
+    @collaboration = @wiki.collaborators.map { |c| [c.email, c.id] }
+
     unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
       flash[:alert] = "You must be a premium user to view private topics."
       if current_user
@@ -19,6 +20,7 @@ class WikisController < ApplicationController
   end
 
   def new
+    @user_options = User.all.map { |u| [ u.email, u.id] }
     @wiki = Wiki.new
     authorize @wiki
   end
@@ -26,13 +28,13 @@ class WikisController < ApplicationController
   def create
     @wiki = Wiki.create(wiki_params)
     @wiki.user = current_user
+    @user_options = User.all.map { |u| [ u.email, u.id] }
     authorize @wiki
     if @wiki.save
       flash[:notice] = "wiki was saved."
       redirect_to @wiki
     else
       flash[:error] = "Error creating wiki. Please try again."
-
     end
   end
 
@@ -72,6 +74,6 @@ class WikisController < ApplicationController
   private
 
   def wiki_params
-    params.require(:wiki).permit(:title, :body, :public)
+    params.require(:wiki).permit(:title, :body, :private, :collaborator)
   end
 end
