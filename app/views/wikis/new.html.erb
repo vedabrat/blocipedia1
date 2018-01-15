@@ -23,6 +23,7 @@
                      <%= f.check_box :private %> Private wiki
                      <% end %>
                  </div>
+                     <%= f.select(:collaborators, options_for_select(@user_options) ) %>
                  <div class="form-group">
                         <%= f.submit "Save", class: 'btn btn-success' %>
                 </div>
