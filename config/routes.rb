@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'charges/create'
   get 'welcome/about'
   resources :wikis
+  get 'wikis/new'
   resources :charges, only: [:new, :create]
   root to: 'welcome#index'
 

@@ -42,8 +42,8 @@ include Faker
        private: false
      )
    end
-   wikis = Wiki.all
-   wiki = Wiki.all
+   @wikis = Wiki.all
+   @wiki = Wiki.all
 
    # Create an admin member
    admin = User.create!(

@@ -25,6 +25,13 @@ class WikiController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    if @wiki.save
+      flash[:notice] = "wiki was saved."
+      redirect_to @wiki
+    else
+      flash[:error] = "Error creating wiki. Please try again."
+
+    end
   end
 
   def destroy
@@ -41,6 +48,7 @@ class WikiController < ApplicationController
 
   def update
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
 
     @wiki.assign_attributes(wiki_params)
 
