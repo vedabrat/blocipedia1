@@ -7,6 +7,10 @@ class Wiki < ApplicationRecord
     update_attribute(:private, false)
   end
 
+  def public?
+    !private?
+  end
+
   def self.visible_to(user)
     if user.try(:role) == 'premium' || user.try(:role) == 'admin'
       all
