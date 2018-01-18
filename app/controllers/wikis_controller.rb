@@ -1,5 +1,5 @@
 class WikisController < ApplicationController
-    after_action :verify_authorized, :except => :index
+  after_action :verify_authorized, :except => :index
   def index
     @wikis = Wiki.all
     @wikis = Wiki.visible_to(current_user)
@@ -7,14 +7,14 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
-       unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
-       flash[:alert] = "You must be a premium user to view private topics."
-       if current_user
-         redirect_to new_charge_path
-       else
-         redirect_to new_user_registration_path
-       end
-     end
+    unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
+      flash[:alert] = "You must be a premium user to view private topics."
+      if current_user
+        redirect_to new_charge_path
+      else
+        redirect_to new_user_registration_path
+      end
+    end
     authorize @wiki
   end
 
@@ -24,16 +24,16 @@ class WikisController < ApplicationController
   end
 
   def create
-     @wiki = Wiki.create(wiki_params)
-     @wiki.user = current_user
-     authorize @wiki
-     if @wiki.save
-       flash[:notice] = "wiki was saved."
-       redirect_to @wiki
-     else
-       flash[:error] = "Error creating wiki. Please try again."
+    @wiki = Wiki.create(wiki_params)
+    @wiki.user = current_user
+    authorize @wiki
+    if @wiki.save
+      flash[:notice] = "wiki was saved."
+      redirect_to @wiki
+    else
+      flash[:error] = "Error creating wiki. Please try again."
 
-     end
+    end
   end
 
   def edit
@@ -42,16 +42,16 @@ class WikisController < ApplicationController
   end
 
   def destroy
-     @wiki = Wiki.find(params[:id])
-     authorize @wiki
+    @wiki = Wiki.find(params[:id])
+    authorize @wiki
 
-     if @wiki.destroy
-       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
-       redirect_to action: :index
-     else
-       flash.now[:alert] = "There was an error deleting the wiki."
-       render :show
-     end
+    if @wiki.destroy
+      flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
+      redirect_to action: :index
+    else
+      flash.now[:alert] = "There was an error deleting the wiki."
+      render :show
+    end
   end
 
   def update
@@ -69,7 +69,7 @@ class WikisController < ApplicationController
     end
   end
 
-private
+  private
 
   def wiki_params
     params.require(:wiki).permit(:title, :body, :public)

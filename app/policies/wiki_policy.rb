@@ -1,5 +1,4 @@
 class WikiPolicy < ApplicationPolicy
-
     def update?
       user.present?
      end
@@ -20,4 +19,7 @@ class WikiPolicy < ApplicationPolicy
       user.present?
     end
 
+    def destroy?
+      user == record.user
+    end
   end
