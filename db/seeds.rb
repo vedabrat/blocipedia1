@@ -10,61 +10,53 @@ include Faker
 
 
 # Create an admin user
- admin = User.create!(
-   email:    'admin@example.com',
-   password: 'helloworld',
-   role:     'admin'
- )
+User.create!(
+  email:    'admin@example.com',
+  password: 'helloworld',
+  role:     'admin'
+)
 
- # Create a member
- member = User.create!(
-   name:     'Member User',
-   email:    'member@example.com',
-   password: 'helloworld'
- )
+# Create a member
+User.create!(
+  name:     'Member User',
+  email:    'member@example.com',
+  password: 'helloworld'
+)
 
+# Create a premium member
+User.create!(
+  email:    'premium@example.com',
+  password: 'helloworld',
+  role:     'premium'
+)
 
- #Create Users
+# Create Users
+5.times do |i|
+  User.create!(
+    email:    "email#{i}@test.com",
+    password: "password#{i}"
+  )
+end
 
-   5.times do
-     user = User.create!(
-     email:    Faker::Internet.email,
-     password: Faker::Internet.password
-     )
-   end
-   users = User.all
+# Create Wikis
+15.times do
+  Wiki.create!(
+    title: Faker::Lorem.sentence,
+    body: Faker::Lorem.paragraph,
+    private: false,
+    user: User.all.sample
+  )
+end
 
- # Create Wikis
-   15.times do
-     Wiki.create!(
-       title: Faker::Lorem.sentence,
-       body: Faker::Lorem.paragraph,
-       private: false
-     )
-   end
-   @wikis = Wiki.all
-   @wiki = Wiki.all
+5.times do
+  Wiki.create!(
+    title: Faker::Lorem.sentence,
+    body: Faker::Lorem.paragraph,
+    private: true,
+    user: User.where(role: 'premium').all.sample
+  )
+end
 
-   # Create an admin member
-   admin = User.create!(
-   email:    'admin@example.com',
-   password: 'helloworld',
-   role:     'admin'
-   )
-
-   #Create a standard member
-   member = User.create!(
-   email:    'member@example.com',
-   password: 'helloworld'
-   )
-
-   #Create a premium member
-   premium = User.create!(
-     email:    'premium@example.com',
-     password: 'helloworld',
-     role:     'premium'
-   )
-
- puts "Seed finished"
- puts "#{User.count} users created."
- puts "#{Wiki.count} wikis created."
+puts "Seed finished"
+puts "#{User.count} users created."
+puts "#{Wiki.count} wikis created."
