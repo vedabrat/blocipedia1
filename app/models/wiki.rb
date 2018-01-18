@@ -1,10 +1,15 @@
 class Wiki < ApplicationRecord
   belongs_to :user
 
-  scope :visible_to, -> (user) { user ? all : where(private: false) }
-
   def publicize
     update_attribute(:private, false)
   end
 
+  def self.visible_to(user)
+    if user.try(:role) == 'premium' || user.try(:role) == 'admin'
+      all
+    else
+      where(private: false)
+    end
+  end
 end
