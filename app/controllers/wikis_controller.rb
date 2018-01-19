@@ -30,6 +30,7 @@ class WikisController < ApplicationController
     @wiki.user = current_user
     @user_options = User.all.map { |u| [ u.email, u.id] }
     authorize @wiki
+    binding.pry
     if @wiki.save
       flash[:notice] = "wiki was saved."
       redirect_to @wiki
@@ -40,6 +41,7 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
+    @user_options = User.all.map { |u| [ u.email, u.id] }
     authorize @wiki
   end
 
