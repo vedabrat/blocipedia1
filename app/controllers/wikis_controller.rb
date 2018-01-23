@@ -6,7 +6,8 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
-    @collaboration = @wiki.collaborators.map { |c| [c.email, c.id] }
+    @collaborator = Collaborator.create!(wiki_id: @wiki.id, user_id: @wiki.user_id)
+    @collaboration = User.find_by(id: Collaborator.find_by(wiki_id: @wiki.id).user_id).email
 
     unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
       flash[:alert] = "You must be a premium user to view private topics."
@@ -21,10 +22,12 @@ class WikisController < ApplicationController
   end
 
   def new
-    @user_options = User.all.map { |u| [ u.email, u.id] }
     @wiki = Wiki.new
-    @collaborator = Collaborator.new
+    @user = User.find_by(id: @wiki.user_id)
+    @user_options = User.all.map { |u| [ u.email, u.id] }
+    @wiki.collaborators = [1,2,3]
     binding.pry
+
     authorize @wiki
   end
 
@@ -33,7 +36,6 @@ class WikisController < ApplicationController
     @wiki.user = current_user
     @user_options = User.all.map { |u| [ u.email, u.id] }
     authorize @wiki
-    binding.pry
     if @wiki.save
       flash[:notice] = "wiki was saved."
       redirect_to @wiki
@@ -76,9 +78,7 @@ class WikisController < ApplicationController
     end
   end
 
-  def collaborators
-    []
-  end
+
   private
 
   def wiki_params
