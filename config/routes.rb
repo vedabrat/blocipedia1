@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
 
 
+  get 'collaborators/edit'
+
+  get 'collaborators/create'
+
+  get 'collaborators/destroy'
+
   get 'collaborators/_form'
 
   resources :downgrade, only: [:new, :create]

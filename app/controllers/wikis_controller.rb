@@ -16,12 +16,15 @@ class WikisController < ApplicationController
         redirect_to new_user_registration_path
       end
     end
+    binding.pry
     authorize @wiki
   end
 
   def new
     @user_options = User.all.map { |u| [ u.email, u.id] }
     @wiki = Wiki.new
+    @collaborator = Collaborator.new
+    binding.pry
     authorize @wiki
   end
 
@@ -73,6 +76,9 @@ class WikisController < ApplicationController
     end
   end
 
+  def collaborators
+    []
+  end
   private
 
   def wiki_params
