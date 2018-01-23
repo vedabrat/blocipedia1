@@ -9,6 +9,7 @@ class WikisController < ApplicationController
     @collaborator = Collaborator.create!(wiki_id: @wiki.id, user_id: @wiki.user_id)
     @collaboration = User.find_by(id: Collaborator.find_by(wiki_id: @wiki.id).user_id).email
 
+
     unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
       flash[:alert] = "You must be a premium user to view private topics."
       if current_user
@@ -17,7 +18,6 @@ class WikisController < ApplicationController
         redirect_to new_user_registration_path
       end
     end
-    binding.pry
     authorize @wiki
   end
 
@@ -26,7 +26,6 @@ class WikisController < ApplicationController
     @user = User.find_by(id: @wiki.user_id)
     @user_options = User.all.map { |u| [ u.email, u.id] }
     @wiki.collaborators = [1,2,3]
-    binding.pry
 
     authorize @wiki
   end

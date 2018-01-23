@@ -24,7 +24,7 @@
                      <% end %>
                  </div>
                  <%= render partial: 'collaborators/form', locals: { f: f } %>
-                     <%= f.select(:collaborators, options_for_select(@user_options) ) %>
+                     <%= f.select(:collaborator, options_for_select(@user_options) ) %>
                  <div class="form-group">
                      <%= f.submit "Save", class: 'btn btn-success' %>
                  </div>
