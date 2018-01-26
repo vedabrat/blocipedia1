@@ -2,7 +2,7 @@ class Wiki < ApplicationRecord
   belongs_to :user
   has_many :collaborators
   has_many :users, through: :collaborators
-  attr_accessor :collaborators
+
   def publicize
     update_attribute(:private, false)
   end

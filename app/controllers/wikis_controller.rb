@@ -25,7 +25,6 @@ class WikisController < ApplicationController
     @wiki = Wiki.new
     @user = User.find_by(id: @wiki.user_id)
     @user_options = User.all.map { |u| [ u.email, u.id] }
-    @wiki.collaborators = [1,2,3]
 
     authorize @wiki
   end
@@ -45,7 +44,6 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.find(params[:id])
-    @user_options = User.all.map { |u| [ u.email, u.id] }
     authorize @wiki
   end
 
