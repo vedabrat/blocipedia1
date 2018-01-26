@@ -6,9 +6,7 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
-    @collaborator = Collaborator.create!(wiki_id: @wiki.id, user_id: @wiki.user_id)
-    @collaboration = User.find_by(id: Collaborator.find_by(wiki_id: @wiki.id).user_id).email
-
+    @collaboration = @wiki.collaborators.map { |c| [c.email, c.id] }
 
     unless (@wiki.private == false) || (@wiki.private == nil) || current_user.premium? || current_user.admin?
       flash[:alert] = "You must be a premium user to view private topics."
@@ -22,10 +20,8 @@ class WikisController < ApplicationController
   end
 
   def new
-    @wiki = Wiki.new
-    @user = User.find_by(id: @wiki.user_id)
     @user_options = User.all.map { |u| [ u.email, u.id] }
-
+    @wiki = Wiki.new
     authorize @wiki
   end
 
@@ -74,7 +70,6 @@ class WikisController < ApplicationController
       render :edit
     end
   end
-
 
   private
 
