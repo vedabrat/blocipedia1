@@ -3,7 +3,6 @@ FactoryBot.define do
     title "MyString"
     body "MyText"
     private false
-    collaborators ""
     user nil
   end
 end
